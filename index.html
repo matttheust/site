@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-7/DqpIwQlA+Q7K7R6z2kIlUZUgVQKpvYq4hA3OO6/0NAIFoRuMtW15TEYTzCg6zABf9qa4hqSNcd5LzKy09ClA==" crossorigin="anonymous" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	</head>
 	<body class="is-preload">
 
@@ -69,35 +70,69 @@
 							</article>
 
 						<!-- Contact -->
-							<article id="contact">
-								<h2 class="major">Contact</h2>
-								<form method="post" action="#">
-									<div class="fields">
-										<div class="field half">
-											<label for="name">Name</label>
-											<input type="text" name="name" id="name" />
-										</div>
-										<div class="field half">
-											<label for="email">Email</label>
-											<input type="text" name="email" id="email" />
-										</div>
-										<div class="field">
-											<label for="message">Message</label>
-											<textarea name="message" id="message" rows="4"></textarea>
-										</div>
+						<article id="contact">
+							<h2 class="major">Contact</h2>
+							<form id="contactForm">
+								<div class="fields">
+									<div class="field half">
+										<label for="name">Name</label>
+										<input type="text" name="name" id="name" />
 									</div>
-									<ul class="actions">
-										<li><input type="submit" value="Send Message" class="primary" /></li>
-										<li><input type="reset" value="Reset" /></li>
-									</ul>
-								</form>
-								<ul class="icons">
-									<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-									<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-									<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-									<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+									<div class="field half">
+										<label for="email">Email</label>
+										<input type="text" name="email" id="email" />
+									</div>
+									<div class="field">
+										<label for="message">Message</label>
+										<textarea name="message" id="message" rows="4"></textarea>
+									</div>
+								</div>
+								<ul class="actions">
+									<li><input type="button" value="Send Message" class="primary" onclick="enviarMensagem()" /></li>
+									<li><input type="reset" value="Reset" /></li>
 								</ul>
-							</article>
+							</form>
+							<ul class="icons">
+								<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+								<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+							</ul>
+							<script>
+								function enviarMensagem() {
+									var nome = $('#name').val();
+									var email = $('#email').val();
+									var mensagem = $('#message').val();
+							
+									// Construir o objeto de dados
+									var dados = {
+										nome: nome,
+										email: email,
+										mensagem: mensagem
+									};
+							
+									// Fazer a chamada AJAX
+									$.ajax({
+										url: 'URL_DA_SUA_API_GATEWAY',
+										type: 'POST',
+										contentType: 'application/json',
+										data: JSON.stringify(dados),
+										success: function (resposta) {
+											console.log(resposta);
+											// Lógica de sucesso, se necessário
+											alert("Mensagem enviada com sucesso!");
+										},
+										error: function (erro) {
+											console.error(erro);
+											// Lógica de tratamento de erro, se necessário
+											alert("Erro ao enviar mensagem. Por favor, tente novamente mais tarde.");
+										}
+									});
+								}
+							</script>
+						</article>
+						
+						
 					</div>
 				<!-- Footer -->
 					<footer id="footer"></footer>
