@@ -9,6 +9,11 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-7/DqpIwQlA+Q7K7R6z2kIlUZUgVQKpvYq4hA3OO6/0NAIFoRuMtW15TEYTzCg6zABf9qa4hqSNcd5LzKy09ClA==" crossorigin="anonymous" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+		<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js"></script>
+
+
 	</head>
 	<body class="is-preload">
 
@@ -98,41 +103,36 @@
 								<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
 								<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
 							</ul>
-							<script>
-								function enviarMensagem() {
-									var nome = $('#name').val();
-									var email = $('#email').val();
-									var mensagem = $('#message').val();
-							
-									// Construir o objeto de dados
-									var dados = {
-										nome: nome,
-										email: email,
-										mensagem: mensagem
-									};
-							
-									// Fazer a chamada AJAX
-									$.ajax({
-										url: 'https://l1lymwhoih.execute-api.us-east-2.amazonaws.com/prod',
-										type: 'POST',
-										contentType: 'application/json',
-										data: JSON.stringify(dados),
-										success: function (resposta) {
-											console.log(resposta);
-											// Lógica de sucesso, se necessário
-											alert("Mensagem enviada com sucesso!");
-										},
-										error: function (erro) {
-											console.error(erro);
-											// Lógica de tratamento de erro, se necessário
-											alert("Erro ao enviar mensagem. Por favor, tente novamente mais tarde.");
-										}
-									});
-								}
-							</script>
 						</article>
 						
+						<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js"></script>
+						<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics.js"></script>
+						<script src="config.js"></script>
+						<script>
+							function enviarMensagem() {
+								var nome = document.getElementById('name').value;
+								var email = document.getElementById('email').value;
+								var mensagem = document.getElementById('message').value;
 						
+								// Salvar mensagem no Firestore
+								db.collection("mensagens").add({
+									nome: nome,
+									email: email,
+									mensagem: mensagem
+								})
+								.then((docRef) => {
+									console.log("Document written with ID: ", docRef.id);
+									alert("Mensagem enviada com sucesso!");
+								})
+								.catch((error) => {
+									console.error("Error adding document: ", error);
+									alert("Erro ao enviar mensagem. Por favor, tente novamente mais tarde.");
+								});
+							}
+
+							const app = initializeApp(firebaseConfig);
+  							const analytics = getAnalytics(app);
+						</script>						
 					</div>
 				<!-- Footer -->
 					<footer id="footer"></footer>
